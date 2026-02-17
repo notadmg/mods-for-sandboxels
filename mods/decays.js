@@ -111,7 +111,7 @@ color: "#f013f0",
 behavior: behaviors.POWDER,
 tick: function(pixel) {
 if (Math.random() < decay(2.645*365*24*60*60*1000)) {
-changePixel(pixel, "curium_247");
+changePixel(pixel, "curium_248");
 releaseElement(pixel, "alpha_particle");
 }
 },
