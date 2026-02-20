@@ -1175,7 +1175,16 @@ img {
 .standalone #gameDiv.gameDiv-wide {
   margin-top: 0!important
 }
-	
+
+.setting-span:has(#saveAuthorLabel) {
+	margin-top: 1.5em;
+	display: block;
+}
+
+.toggleInput,.settingsButton {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
 `
 
 function shove_up(elem, count) {
@@ -1185,15 +1194,8 @@ function shove_up(elem, count) {
     }
 }
 
-runAfterLoad(() => {
-    const new_elem = document.createElement("style")
-    new_elem.innerHTML = STYLE
-
-
-    document.querySelector(`link[rel="stylesheet"][href="style.css"]`).replaceWith(new_elem)
-    document.querySelectorAll(".XButton").forEach(x => x.innerText = "-")
-
-    const toggles_row = document.querySelector("#savePromptMenu .toggles-row")
+function patch_save_to_file(){
+	const toggles_row = document.querySelector("#savePromptMenu .toggles-row")
     const save_include_lbl = document.getElementById("saveInclude")
 
     toggles_row.style.display = "inline"
@@ -1203,6 +1205,30 @@ runAfterLoad(() => {
     shove_up(toggles_row, 4)
     save_include_lbl.before(document.createElement("br"))
     toggles_row.after(document.createElement("br"))
+
+	document.getElementById("saveAuthorLabel").innerText += ":"
+	document.getElementById("saveDescLabel").innerText   += ":"
+	document.getElementById("saveNameLabel").innerText   += ":"
+}
+
+function patch_settings() {
+	const toggles_row = document.querySelector(
+		"#betterSettings\\/div\\/general.toggles-row .toggles-row,"+
+		"#settingsMenu .toggles-row"
+	)
+	console.debug(toggles_row)
+	shove_up(toggles_row, 7)
+}
+
+runAfterLoad(() => {
+    const new_elem = document.createElement("style")
+    new_elem.innerHTML = STYLE
+
+    document.querySelector(`link[rel="stylesheet"][href="style.css"]`).replaceWith(new_elem)
+    document.querySelectorAll(".XButton").forEach(x => x.innerText = "-")
+
+	patch_save_to_file()
+	patch_settings()
 });
 
 dependOn(
